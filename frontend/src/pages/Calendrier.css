@@ -1,0 +1,263 @@
+.calendrier-page {
+  max-width: 1450px;
+  margin: 40px auto;
+  padding: 0 24px 50px;
+  color: #1e293b;
+}
+
+.calendrier-entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.calendrier-entete h1 {
+  margin: 8px 0;
+  font-size: 30px;
+}
+
+.calendrier-entete p {
+  margin: 0;
+  color: #64748b;
+}
+
+.calendrier-sur {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.calendrier-navigation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.calendrier-navigation button {
+  border: 1px solid #e2e8f0;
+  background: white;
+  border-radius: 8px;
+  padding: 8px 13px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.calendrier-navigation strong {
+  min-width: 155px;
+  text-align: center;
+  font-size: 17px;
+}
+
+.calendrier-navigation .calendrier-aujourdhui {
+  font-size: 13px;
+  color: #2563eb;
+}
+
+.calendrier-legende {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin-bottom: 15px;
+  color: #475569;
+  font-size: 13px;
+}
+
+.calendrier-legende span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.calendrier-legende i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legende-approuve { background: #16a34a; }
+.legende-attente { background: #d97706; }
+.legende-annulation { background: #7c3aed; }
+
+.calendrier-grille {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  background: white;
+  border-top: 1px solid #e2e8f0;
+  border-left: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.calendrier-jour-semaine {
+  padding: 13px 8px;
+  text-align: center;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+  border-right: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.calendrier-case {
+  min-width: 0;
+  min-height: 125px;
+  padding: 8px;
+  border-right: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  background: white;
+}
+
+.calendrier-case.hors-mois {
+  background: #f8fafc;
+  color: #94a3b8;
+}
+
+.calendrier-case.est-aujourdhui {
+  background: #eff6ff;
+}
+
+.calendrier-numero {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.est-aujourdhui .calendrier-numero {
+  color: white;
+  background: #2563eb;
+  border-radius: 50%;
+}
+
+.calendrier-evenements {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 5px;
+}
+
+.calendrier-evenement {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 5px 6px;
+  border-radius: 5px;
+  border-left: 3px solid;
+  overflow: hidden;
+  font-size: 11px;
+}
+
+.calendrier-evenement strong,
+.calendrier-evenement small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calendrier-evenement small {
+  opacity: 0.8;
+}
+
+.evenement-approved {
+  background: #dcfce7;
+  border-color: #16a34a;
+  color: #166534;
+}
+
+.evenement-pending {
+  background: #fef3c7;
+  border-color: #d97706;
+  color: #92400e;
+}
+
+.evenement-cancellation_requested {
+  background: #ede9fe;
+  border-color: #7c3aed;
+  color: #5b21b6;
+}
+
+.calendrier-erreur,
+.calendrier-chargement,
+.calendrier-vide {
+  padding: 20px;
+  text-align: center;
+  color: #64748b;
+}
+
+.calendrier-erreur { color: #b91c1c; }
+
+@media (max-width: 750px) {
+  .calendrier-page {
+    padding: 0 10px 30px;
+  }
+
+  .calendrier-case {
+    min-height: 85px;
+    padding: 4px;
+  }
+
+  .calendrier-evenement {
+    padding: 3px;
+    font-size: 9px;
+  }
+
+  .calendrier-evenement small {
+    display: none;
+  }
+
+  .calendrier-jour-semaine {
+    font-size: 10px;
+  }
+}
+
+
+/* Indicateurs d'effectifs absents */
+.calendrier-effectifs {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 5px 0;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.calendrier-effectifs span {
+  display: block;
+  padding: 3px 5px;
+  border-radius: 4px;
+  overflow-wrap: anywhere;
+}
+
+.effectif-approuve {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.effectif-attente {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.effectif-annulation {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+
+@media (max-width: 750px) {
+  .calendrier-effectifs {
+    font-size: 8px;
+    gap: 2px;
+  }
+
+  .calendrier-effectifs span {
+    padding: 2px;
+  }
+}

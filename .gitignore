@@ -14,3 +14,32 @@ coverage/
 
 # Système
 .DS_Store
+# Sécurité
+cookies.txt
+*.cookies
+*.pem
+*.key
+
+# Sauvegardes locales
+*.bak
+*.bak-*
+*.backup
+*.backup-*
+*.avant-*
+sauvegardes/
+audit-projet.txt
+
+# Fichiers temporaires
+*.tmp
+.DS_Store
+
+# Sauvegardes et fichiers locaux
+*.bak*
+*.backup*
+*.avant-*
+*.tmp
+backend/test-db.js
+frontend/src/*.backup*
+frontend/src/*.bak*
+frontend/src/*.avant-*
+!.env.example

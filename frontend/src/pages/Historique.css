@@ -1,0 +1,165 @@
+.historique-page {
+  max-width: 1200px;
+  margin: 45px auto;
+  padding: 0 25px 50px;
+  color: #1e293b;
+}
+
+.historique-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.historique-eyebrow {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.historique-header h1 {
+  margin: 8px 0;
+  font-size: 30px;
+}
+
+.historique-header p {
+  color: #64748b;
+  margin: 0;
+}
+
+.historique-total {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 18px 28px;
+}
+
+.historique-total strong {
+  font-size: 28px;
+  color: #2563eb;
+}
+
+.historique-total span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.historique-filtres {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.historique-filtres label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.historique-filtres select {
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  color: #334155;
+}
+
+.historique-table-container {
+  overflow-x: auto;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.historique-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+.historique-table th,
+.historique-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.historique-table th {
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.historique-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.historique-statut {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.statut-pending,
+.statut-cancellation_requested {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.statut-approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.statut-rejected,
+.statut-cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.historique-message,
+.historique-vide {
+  padding: 35px;
+  text-align: center;
+  color: #64748b;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.historique-erreur {
+  color: #b91c1c;
+}
+
+.historique-vide span {
+  font-size: 35px;
+}
+
+.historique-vide h2 {
+  color: #334155;
+}
+
+@media (max-width: 650px) {
+  .historique-header {
+    align-items: flex-start;
+  }
+
+  .historique-header h1 {
+    font-size: 24px;
+  }
+
+  .historique-filtres {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

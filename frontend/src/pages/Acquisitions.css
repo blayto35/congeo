@@ -1,0 +1,219 @@
+
+.acquisitions-panel {
+  margin-top: 28px;
+}
+
+.acquisitions-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 14px;
+  margin: 22px 0;
+}
+
+.acquisitions-filters label {
+  display: grid;
+  gap: 7px;
+  min-width: 180px;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.acquisitions-filters select {
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 1px solid #dbe2ea;
+  border-radius: 9px;
+  background: white;
+  color: #172033;
+}
+
+.acquisitions-refresh {
+  min-height: 42px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 9px;
+  background: #172f55;
+  color: white;
+  cursor: pointer;
+}
+
+.acquisitions-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.acquisitions-summary strong {
+  color: #172033;
+  font-size: 22px;
+}
+
+.acquisitions-empty {
+  padding: 24px;
+  text-align: center;
+  color: #64748b;
+}
+
+.acquisitions-type {
+  display: inline-block;
+  padding: 5px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.type-accrual { background: #dcfce7; color: #166534; }
+.type-adjustment { background: #dbeafe; color: #1e40af; }
+.type-leave_taken { background: #fee2e2; color: #991b1b; }
+.type-reversal { background: #fef3c7; color: #92400e; }
+
+.acquisitions-positive {
+  color: #15803d;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.acquisitions-negative {
+  color: #b91c1c;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.acquisitions-table td {
+  vertical-align: middle;
+}
+
+@media (max-width: 760px) {
+  .acquisitions-filters {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .acquisitions-filters label {
+    min-width: 0;
+  }
+}
+
+
+/* Paramètres d'acquisition des congés */
+.acquisitions-filters input {
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 1px solid #dbe2ea;
+  border-radius: 9px;
+  background: white;
+  color: #172033;
+}
+
+.acquisitions-refresh:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Détails dépliables des acquisitions */
+.acquisition-details {
+  padding: 18px;
+  border-radius: 10px;
+  background: rgba(120, 120, 120, 0.06);
+}
+
+.acquisition-details h3 {
+  margin: 0 0 16px;
+  font-size: 1rem;
+}
+
+.acquisition-details .admin-table-wrapper {
+  margin-top: 12px;
+}
+
+
+/* Bilan des acquisitions */
+.acquisition-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.acquisition-summary-card {
+  flex: 1 1 150px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(120, 120, 120, 0.06);
+}
+
+.acquisition-summary-card strong {
+  display: block;
+  font-size: 1.5rem;
+  margin-top: 4px;
+}
+
+.acquisition-summary-card.success {
+  border-left: 4px solid #16a34a;
+}
+
+.acquisition-summary-card.duplicate {
+  border-left: 4px solid #d97706;
+}
+
+.acquisition-summary-card.error {
+  border-left: 4px solid #dc2626;
+}
+
+/* Badges de statut */
+.acquisition-badge {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.acquisition-badge.credited {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.acquisition-badge.duplicate {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.acquisition-badge.error {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+
+/* Filtres de l'historique des acquisitions */
+.acquisition-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.acquisition-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 150px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.acquisition-filters select {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color, #d1d5db);
+  border-radius: 8px;
+  background: var(--surface, white);
+  color: inherit;
+}
