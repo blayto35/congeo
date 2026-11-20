@@ -169,7 +169,17 @@ function Manager() {
               {demandes.map((demande) => (
                 <article className="manager-request" key={demande.id}>
                   <div className="manager-request-info">
-                    <h3>{demande.first_name} {demande.last_name}</h3>
+                    <div className="collaborateur-identite">
+                      <span className="collaborateur-avatar">
+                        <span>{demande.first_name.charAt(0)}{demande.last_name.charAt(0)}</span>
+                        <img
+                          src={`/api/utilisateurs/${demande.user_id}/photo`}
+                          alt=""
+                          onError={(event) => { event.currentTarget.style.display = "none"; }}
+                        />
+                      </span>
+                      <h3>{demande.first_name} {demande.last_name}</h3>
+                    </div>
                     <p>
                       Du <strong>{demande.start_date}</strong> au{" "}
                       <strong>{demande.end_date}</strong>

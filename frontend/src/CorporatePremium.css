@@ -1,0 +1,1739 @@
+/* =========================================================
+   CONGEO — REFONTE VISUELLE COMPLÈTE
+   Univers : Corporate Premium
+   Aucun changement de logique applicative
+   ========================================================= */
+
+:root {
+  font-family: "DM Sans", "Segoe UI", sans-serif !important;
+  color: #182b49 !important;
+  background: #f2f5fa !important;
+  color-scheme: light !important;
+
+  --navy: #102747;
+  --navy-light: #193b65;
+  --blue: #3478d4;
+  --blue-light: #eaf2ff;
+  --background: #f2f5fa;
+  --surface: #ffffff;
+  --text: #182b49;
+  --muted: #7d8ba1;
+  --border: #e5eaf1;
+  --green: #16845b;
+  --green-bg: #e6f5ed;
+  --orange: #b97719;
+  --orange-bg: #fff4df;
+  --red: #c74755;
+  --red-bg: #fff0f1;
+
+  --radius: 18px;
+  --shadow: 0 8px 28px rgba(16, 39, 71, .055);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--background) !important;
+}
+
+body {
+  margin: 0 !important;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--background) !important;
+  color: var(--text) !important;
+  font-family: "DM Sans", "Segoe UI", sans-serif !important;
+}
+
+#root {
+  width: 100% !important;
+  max-width: none !important;
+  min-height: 100vh;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  text-align: left !important;
+  border: 0 !important;
+  background: var(--background) !important;
+}
+
+h1, h2, h3, h4 {
+  color: var(--navy) !important;
+  font-family: "Manrope", "Segoe UI", sans-serif !important;
+  letter-spacing: -.045em !important;
+}
+
+p {
+  line-height: 1.65;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+button {
+  transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+/* ================= NAVIGATION ================= */
+
+.main-navigation {
+  position: sticky !important;
+  top: 0;
+  z-index: 100;
+  min-height: 76px !important;
+  padding: 0 clamp(20px, 5vw, 76px) !important;
+  background: var(--navy) !important;
+  border: 0 !important;
+  box-shadow: 0 5px 24px rgba(10, 31, 57, .16) !important;
+}
+
+.navigation-brand {
+  display: flex !important;
+  align-items: center;
+  gap: 11px;
+  color: white !important;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  letter-spacing: -.06em;
+}
+
+.navigation-brand span {
+  color: white !important;
+}
+
+.navigation-brand img {
+  width: 40px !important;
+  height: 40px !important;
+  object-fit: contain;
+}
+
+.navigation-links {
+  gap: clamp(12px, 2.3vw, 32px) !important;
+}
+
+.navigation-links a {
+  padding: 27px 0 !important;
+  color: #c4d1e3 !important;
+  border-bottom: 3px solid transparent !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  transition: color .2s, border-color .2s;
+}
+
+.navigation-links a:hover,
+.navigation-links a.active {
+  color: white !important;
+  border-bottom-color: #69a6ff !important;
+}
+
+.navigation-user {
+  color: #dce6f4 !important;
+  font-size: 13px !important;
+}
+
+.navigation-user button {
+  padding: 10px 16px !important;
+  color: white !important;
+  background: rgba(255,255,255,.12) !important;
+  border: 1px solid rgba(255,255,255,.15) !important;
+  border-radius: 10px !important;
+}
+
+.navigation-user button:hover {
+  background: rgba(255,255,255,.22) !important;
+}
+
+/* ================= STRUCTURE DES PAGES ================= */
+
+.dashboard,
+.calendrier-page,
+.historique-page {
+  min-height: calc(100vh - 76px);
+  background: var(--background) !important;
+}
+
+.dashboard-content {
+  width: min(1440px, calc(100% - 64px)) !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  padding: 48px 0 80px !important;
+}
+
+.calendrier-page,
+.historique-page {
+  width: min(1440px, calc(100% - 64px));
+  margin: 0 auto;
+  padding: 48px 0 80px;
+}
+
+.dashboard-content > h1,
+.calendrier-entete h1,
+.historique-header h1 {
+  margin: 8px 0 10px !important;
+  color: var(--navy) !important;
+  font-size: clamp(30px, 3vw, 42px) !important;
+  font-weight: 800 !important;
+  line-height: 1.15;
+}
+
+.dashboard-subtitle,
+.calendrier-entete p,
+.historique-header p {
+  color: var(--muted) !important;
+  font-size: 15px !important;
+}
+
+.eyebrow,
+.admin-eyebrow,
+.historique-eyebrow,
+.calendrier-sur {
+  color: var(--blue) !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: .17em !important;
+}
+
+/* ================= CARTES STATISTIQUES ================= */
+
+.dashboard-cards {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 18px !important;
+  margin: 36px 0 30px !important;
+}
+
+.dashboard-card {
+  position: relative;
+  min-height: 145px !important;
+  padding: 25px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 13px !important;
+  overflow: hidden;
+  background: white !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.dashboard-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--blue);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(16,39,71,.10) !important;
+}
+
+.dashboard-card span {
+  color: var(--muted) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+.dashboard-card strong {
+  color: var(--navy) !important;
+  font-family: "Manrope", sans-serif !important;
+  font-size: 34px !important;
+  font-weight: 800 !important;
+}
+
+.dashboard-card:nth-child(4) {
+  background: linear-gradient(135deg, #102747, #24558e) !important;
+  border-color: transparent !important;
+}
+
+.dashboard-card:nth-child(4)::before {
+  background: #70adff;
+}
+
+.dashboard-card:nth-child(4) span,
+.dashboard-card:nth-child(4) small,
+.dashboard-card:nth-child(4) strong {
+  color: white !important;
+}
+
+.dashboard-card:nth-child(5),
+.dashboard-card:nth-child(6) {
+  background: #eaf0f8 !important;
+  border-color: #eaf0f8 !important;
+}
+
+/* ================= PANNEAUX ================= */
+
+.requests-section,
+.admin-panel {
+  margin: 24px 0 !important;
+  padding: 30px !important;
+  background: white !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.section-heading,
+.admin-panel-heading {
+  margin-bottom: 25px !important;
+}
+
+.section-heading h2,
+.admin-panel-heading h2 {
+  margin: 0 0 7px !important;
+  color: var(--navy) !important;
+  font-size: 21px !important;
+  font-weight: 800 !important;
+}
+
+.section-heading p {
+  color: var(--muted) !important;
+  font-size: 14px;
+}
+
+/* ================= FORMULAIRES ================= */
+
+.leave-form,
+.admin-team-form,
+.register-form {
+  gap: 15px !important;
+}
+
+.leave-form label,
+.admin-panel label,
+.register-form label,
+.modal-label {
+  color: #354965 !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+input,
+select,
+textarea,
+.leave-form input,
+.leave-form textarea,
+.admin-team-select,
+.historique-filtres select {
+  min-height: 45px;
+  padding: 11px 14px !important;
+  color: var(--text) !important;
+  background: #fbfcfe !important;
+  border: 1px solid #dce4ef !important;
+  border-radius: 10px !important;
+  outline: none;
+  font-size: 14px !important;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  background: white !important;
+  border-color: var(--blue) !important;
+  box-shadow: 0 0 0 4px rgba(52,120,212,.12) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #a3afbf !important;
+}
+
+/* ================= BOUTONS ================= */
+
+.leave-form > button,
+.admin-primary-button,
+.register-form > button,
+.approve-button,
+.modal-confirm.approve {
+  padding: 12px 20px !important;
+  color: white !important;
+  background: var(--blue) !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  box-shadow: 0 5px 12px rgba(52,120,212,.18);
+}
+
+.leave-form > button:hover,
+.admin-primary-button:hover,
+.register-form > button:hover,
+.approve-button:hover {
+  background: var(--navy) !important;
+  transform: translateY(-2px);
+}
+
+.reject-button,
+.modal-confirm.reject {
+  padding: 12px 20px !important;
+  color: white !important;
+  background: var(--red) !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+}
+
+.modal-cancel,
+.modal-close,
+.admin-team-action,
+.cancel-request-button {
+  border-radius: 10px !important;
+  cursor: pointer;
+}
+
+/* ================= DEMANDES ET STATUTS ================= */
+
+.manager-list,
+.requests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.manager-request,
+.request-item {
+  padding: 22px !important;
+  background: #fbfcfe !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 14px !important;
+}
+
+.manager-request {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.manager-request h3 {
+  margin: 0 0 8px;
+  font-size: 17px !important;
+}
+
+.manager-request-info p,
+.request-item p {
+  color: var(--muted) !important;
+  font-size: 13px !important;
+}
+
+.manager-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.status,
+.historique-statut {
+  display: inline-flex !important;
+  align-items: center;
+  padding: 7px 12px !important;
+  border-radius: 30px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+}
+
+.status.approved,
+.statut-approved {
+  color: var(--green) !important;
+  background: var(--green-bg) !important;
+}
+
+.status.pending,
+.statut-pending {
+  color: var(--orange) !important;
+  background: var(--orange-bg) !important;
+}
+
+.status.rejected,
+.status.cancelled,
+.statut-rejected,
+.statut-cancelled {
+  color: var(--red) !important;
+  background: var(--red-bg) !important;
+}
+
+.status.cancellation_requested,
+.statut-cancellation_requested {
+  color: #9a6417 !important;
+  background: #fff0d8 !important;
+}
+
+.empty-state,
+.historique-vide,
+.calendrier-vide,
+.admin-empty {
+  padding: 45px 20px !important;
+  text-align: center;
+  color: var(--muted) !important;
+  background: #f8fafd !important;
+  border: 1px dashed #d5dfec !important;
+  border-radius: 14px !important;
+}
+
+/* ================= TABLEAUX ================= */
+
+.admin-table-wrap,
+.admin-table-wrapper,
+.historique-table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+}
+
+.admin-table,
+.historique-table {
+  width: 100%;
+  border-collapse: collapse !important;
+  background: white !important;
+  font-size: 13px !important;
+}
+
+.admin-table th,
+.historique-table th {
+  padding: 15px 17px !important;
+  color: #61738d !important;
+  background: #f3f6fa !important;
+  border-bottom: 1px solid var(--border) !important;
+  text-align: left;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.admin-table td,
+.historique-table td {
+  padding: 15px 17px !important;
+  color: #40536d !important;
+  border-bottom: 1px solid #edf1f6 !important;
+}
+
+.admin-table tr:last-child td,
+.historique-table tr:last-child td {
+  border-bottom: 0 !important;
+}
+
+.admin-table tbody tr:hover,
+.historique-table tbody tr:hover {
+  background: #f7faff !important;
+}
+
+/* ================= ADMINISTRATION ================= */
+
+.admin-team-chip,
+.acquisition-summary-card {
+  padding: 17px !important;
+  background: #fbfcfe !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 13px !important;
+}
+
+.admin-team-dot {
+  background: var(--blue) !important;
+}
+
+.admin-team-action {
+  padding: 9px 12px !important;
+  background: #edf3fb !important;
+  border: 1px solid #e0e9f5 !important;
+}
+
+.admin-team-delete {
+  background: var(--red-bg) !important;
+  border-color: #f5d9dc !important;
+}
+
+/* ================= CALENDRIER ================= */
+
+.calendrier-entete,
+.historique-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.calendrier-navigation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  box-shadow: var(--shadow);
+}
+
+.calendrier-navigation button {
+  min-width: 38px;
+  min-height: 38px;
+  color: var(--navy);
+  background: #f1f5fa;
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.calendrier-navigation button:hover {
+  color: white;
+  background: var(--blue);
+}
+
+.calendrier-navigation strong {
+  padding: 0 10px;
+  color: var(--navy);
+  font-size: 13px;
+}
+
+.calendrier-legende {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.calendrier-grille {
+  display: grid !important;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 7px !important;
+  padding: 12px;
+  background: white !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.calendrier-jour-semaine {
+  padding: 12px 5px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.calendrier-case {
+  min-height: 120px;
+  padding: 10px !important;
+  background: #fbfcfe !important;
+  border: 1px solid #edf1f6 !important;
+  border-radius: 10px !important;
+}
+
+.calendrier-case.hors-mois {
+  opacity: .42;
+}
+
+.calendrier-case.est-aujourdhui {
+  background: #eef5ff !important;
+  border: 2px solid #78a9ee !important;
+}
+
+.calendrier-numero {
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.calendrier-evenement {
+  margin-top: 6px;
+  padding: 6px 8px !important;
+  color: #245b9d !important;
+  background: #e7f0ff !important;
+  border-left: 3px solid #4388df !important;
+  border-radius: 5px !important;
+  font-size: 10px !important;
+}
+
+.evenement-approved {
+  color: #18734f !important;
+  background: #e5f5ec !important;
+  border-left-color: #2a9b70 !important;
+}
+
+.evenement-pending {
+  color: #946313 !important;
+  background: #fff4df !important;
+  border-left-color: #dba23d !important;
+}
+
+.calendrier-effectifs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 7px;
+}
+
+.calendrier-effectifs span {
+  padding: 3px 5px;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+/* ================= HISTORIQUE ================= */
+
+.historique-total {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  min-height: 100px;
+  padding: 15px;
+  color: var(--blue);
+  background: var(--blue-light);
+  border: 1px solid #d9e8ff;
+  border-radius: 15px;
+}
+
+.historique-total strong {
+  font-family: "Manrope", sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.historique-total span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.historique-filtres {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 22px;
+  padding: 17px 20px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+}
+
+.historique-filtres label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ================= MODALES ================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(9, 25, 47, .62) !important;
+  backdrop-filter: blur(7px);
+}
+
+.decision-modal {
+  width: min(500px, 100%) !important;
+  padding: 34px !important;
+  background: white !important;
+  border: 1px solid rgba(255,255,255,.4) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 25px 80px rgba(0,0,0,.22) !important;
+}
+
+.decision-modal h2 {
+  font-size: 24px !important;
+  font-weight: 800 !important;
+}
+
+.modal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 18px;
+  color: var(--blue);
+  background: var(--blue-light);
+  border-radius: 14px;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.modal-period {
+  margin: 18px 0;
+  padding: 14px;
+  color: var(--navy);
+  background: #f2f6fb;
+  border-radius: 10px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+/* ================= CONNEXION ================= */
+
+.auth-page {
+  min-height: 100vh !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  grid-template-columns: minmax(420px, .85fr) 1.15fr !important;
+  background: white !important;
+}
+
+.auth-card {
+  width: 100% !important;
+  max-width: 540px !important;
+  padding: clamp(35px, 7vw, 90px) !important;
+}
+
+.brand {
+  margin-bottom: 70px !important;
+  color: var(--navy) !important;
+  font-family: "Manrope", sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+}
+
+.brand img {
+  width: 45px;
+  height: 45px;
+}
+
+.brand-accent {
+  color: var(--blue) !important;
+}
+
+.auth-heading h1 {
+  margin: 12px 0 !important;
+  color: var(--navy) !important;
+  font-size: 42px !important;
+  font-weight: 800 !important;
+}
+
+.auth-heading > p:last-child {
+  color: var(--muted) !important;
+}
+
+.auth-card form {
+  gap: 13px !important;
+  margin-top: 28px;
+}
+
+.auth-card form label {
+  margin-top: 8px;
+  color: #354965;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.auth-card form input {
+  min-height: 52px;
+  padding: 14px 16px !important;
+  background: #f8fafd !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 11px !important;
+}
+
+.auth-card form button {
+  min-height: 52px;
+  margin-top: 12px !important;
+  background: var(--navy) !important;
+  border-radius: 11px !important;
+  font-weight: 700;
+}
+
+.auth-card form button:hover {
+  background: var(--blue) !important;
+}
+
+.auth-decoration {
+  min-height: 100vh !important;
+  margin: 18px !important;
+  padding: clamp(35px, 7vw, 100px) !important;
+  background:
+    radial-gradient(circle at 80% 15%, rgba(92,155,232,.35), transparent 30%),
+    linear-gradient(145deg, #102747 0%, #173d69 55%, #245b96 100%) !important;
+  border-radius: 24px !important;
+}
+
+.decoration-label {
+  color: #8fc0ff !important;
+}
+
+.decoration-content h2 {
+  color: white !important;
+  font-size: clamp(36px, 4vw, 60px) !important;
+  font-weight: 800 !important;
+  line-height: 1.12 !important;
+}
+
+.decoration-content p {
+  color: #d0dced !important;
+  font-size: 16px;
+}
+
+.decoration-shape {
+  color: rgba(255,255,255,.13) !important;
+  font-size: 190px !important;
+}
+
+.decoration-bottom {
+  color: #b9cce4 !important;
+}
+
+/* ================= INSCRIPTION ================= */
+
+.register-page {
+  min-height: 100vh !important;
+  padding: 40px 20px !important;
+  background:
+    radial-gradient(circle at 15% 10%, #e0ecff, transparent 35%),
+    var(--background) !important;
+}
+
+.register-card {
+  width: min(600px, 100%) !important;
+  margin: 0 auto !important;
+  padding: clamp(28px, 5vw, 55px) !important;
+  background: white !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 20px 65px rgba(16,39,71,.09) !important;
+}
+
+.register-brand {
+  color: var(--navy) !important;
+  font-family: "Manrope", sans-serif;
+  font-size: 25px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.register-card h1 {
+  margin-top: 35px;
+  font-size: 34px !important;
+  font-weight: 800 !important;
+}
+
+.register-subtitle,
+.register-footer {
+  color: var(--muted) !important;
+}
+
+/* ================= ALERTES ================= */
+
+.error-message,
+.register-error,
+.admin-alert.error {
+  color: var(--red) !important;
+  background: var(--red-bg) !important;
+  border-radius: 9px;
+}
+
+.success-message,
+.admin-alert.success {
+  color: var(--green) !important;
+  background: var(--green-bg) !important;
+  border-radius: 9px;
+}
+
+.overlap-warning {
+  padding: 14px !important;
+  color: #875d17 !important;
+  background: #fff6e5 !important;
+  border: 1px solid #f4dfb5 !important;
+  border-radius: 10px !important;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+  .main-navigation {
+    padding: 12px 20px !important;
+    flex-wrap: wrap;
+  }
+
+  .navigation-links {
+    flex-wrap: wrap;
+    gap: 12px !important;
+  }
+
+  .navigation-links a {
+    padding: 10px 0 !important;
+  }
+
+  .auth-page {
+    grid-template-columns: 1fr !important;
+  }
+
+  .auth-decoration {
+    display: none !important;
+  }
+
+  .auth-card {
+    min-height: 100vh;
+    margin: auto;
+  }
+
+  .calendrier-case {
+    min-height: 90px;
+    padding: 6px !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .dashboard-content,
+  .calendrier-page,
+  .historique-page {
+    width: calc(100% - 28px) !important;
+    padding: 28px 0 45px !important;
+  }
+
+  .dashboard-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .dashboard-card {
+    min-height: 115px !important;
+    padding: 15px !important;
+  }
+
+  .dashboard-card strong {
+    font-size: 25px !important;
+  }
+
+  .requests-section,
+  .admin-panel {
+    padding: 19px !important;
+  }
+
+  .manager-request,
+  .request-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .calendrier-entete,
+  .historique-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .calendrier-grille {
+    gap: 3px !important;
+    padding: 5px;
+  }
+
+  .calendrier-case {
+    min-height: 75px;
+    padding: 4px !important;
+  }
+
+  .calendrier-evenement {
+    padding: 3px !important;
+    font-size: 8px !important;
+  }
+
+  .historique-filtres {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .register-fields-row,
+  .leave-form .form-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .modal-actions button {
+    width: 100%;
+  }
+}
+
+/* ==========================================================
+   CONGEO — CORPORATE PREMIUM / HIGH CONTRAST
+   Couche de finition : lisibilité et hiérarchie renforcées
+   ========================================================== */
+
+:root {
+  --background: #edf2f8;
+  --navy: #0b1f3a;
+  --blue: #1765c1;
+  --blue-light: #e1edff;
+  --text: #172b45;
+  --muted: #526780;
+  --border: #cbd6e4;
+  --green: #087548;
+  --green-bg: #d9f5e7;
+  --orange: #985400;
+  --orange-bg: #fff0cc;
+  --red: #b42332;
+  --red-bg: #ffe1e4;
+  --radius: 18px;
+}
+
+/* Fond et typographie */
+body {
+  background: #edf2f8 !important;
+  color: #172b45 !important;
+  font-size: 16px !important;
+}
+
+h1, h2, h3, h4 {
+  color: #0b1f3a !important;
+}
+
+p {
+  line-height: 1.7 !important;
+}
+
+/* Navigation plus imposante */
+.main-navigation {
+  min-height: 84px !important;
+  padding-inline: clamp(24px, 5vw, 90px) !important;
+  background: #091b33 !important;
+  box-shadow: 0 8px 30px rgba(7, 24, 46, .22) !important;
+}
+
+.navigation-brand {
+  font-size: 27px !important;
+}
+
+.navigation-brand img {
+  width: 46px !important;
+  height: 46px !important;
+}
+
+.navigation-links a {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+
+.navigation-user {
+  font-size: 14px !important;
+}
+
+/* Contenu des pages */
+.dashboard-content,
+.calendrier-page,
+.historique-page {
+  padding-top: 55px !important;
+  padding-bottom: 90px !important;
+}
+
+.dashboard-content > h1,
+.calendrier-entete h1,
+.historique-header h1 {
+  font-size: clamp(36px, 4vw, 50px) !important;
+  font-weight: 900 !important;
+  letter-spacing: -.05em !important;
+}
+
+.dashboard-subtitle,
+.calendrier-entete p,
+.historique-header p {
+  font-size: 17px !important;
+  color: #526780 !important;
+}
+
+.eyebrow,
+.admin-eyebrow,
+.historique-eyebrow,
+.calendrier-sur {
+  font-size: 12px !important;
+  letter-spacing: .2em !important;
+  font-weight: 900 !important;
+}
+
+/* Cartes plus visibles */
+.dashboard-cards {
+  gap: 22px !important;
+  margin-top: 42px !important;
+}
+
+.dashboard-card {
+  min-height: 165px !important;
+  padding: 30px !important;
+  border: 1px solid #cbd6e4 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 8px 24px rgba(11, 31, 58, .07) !important;
+}
+
+.dashboard-card span {
+  font-size: 15px !important;
+  color: #526780 !important;
+}
+
+.dashboard-card strong {
+  font-size: 42px !important;
+}
+
+.dashboard-card:nth-child(4) {
+  background: linear-gradient(135deg, #091b33, #174b83) !important;
+}
+
+/* Panneaux */
+.requests-section,
+.admin-panel {
+  margin: 30px 0 !important;
+  padding: 36px !important;
+  border: 1px solid #cbd6e4 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 30px rgba(11, 31, 58, .07) !important;
+}
+
+.section-heading h2,
+.admin-panel-heading h2 {
+  font-size: 25px !important;
+}
+
+.section-heading p {
+  font-size: 15px !important;
+}
+
+/* Formulaires et champs */
+input,
+select,
+textarea,
+.leave-form input,
+.leave-form textarea,
+.admin-team-select,
+.historique-filtres select {
+  min-height: 52px !important;
+  padding: 13px 16px !important;
+  background: #fff !important;
+  border: 1.5px solid #bdcada !important;
+  border-radius: 12px !important;
+  font-size: 15px !important;
+}
+
+.leave-form label,
+.admin-panel label,
+.register-form label,
+.modal-label {
+  font-size: 15px !important;
+  color: #263e5c !important;
+}
+
+/* Boutons */
+.leave-form > button,
+.admin-primary-button,
+.register-form > button,
+.approve-button,
+.reject-button,
+.modal-confirm {
+  min-height: 48px !important;
+  padding: 13px 23px !important;
+  border-radius: 12px !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+}
+
+/* Demandes */
+.manager-request,
+.request-item {
+  padding: 27px !important;
+  background: #fff !important;
+  border: 1px solid #cbd6e4 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 14px rgba(11, 31, 58, .045) !important;
+}
+
+.manager-request h3 {
+  font-size: 19px !important;
+}
+
+.manager-request-info p,
+.request-item p {
+  font-size: 15px !important;
+  color: #526780 !important;
+}
+
+/* Statuts très contrastés */
+.status,
+.historique-statut {
+  padding: 9px 15px !important;
+  border-radius: 30px !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+}
+
+.status.approved,
+.statut-approved,
+.evenement-approved {
+  color: #075b38 !important;
+  background: #d5f5e4 !important;
+}
+
+.status.pending,
+.statut-pending,
+.evenement-pending {
+  color: #754000 !important;
+  background: #ffedc2 !important;
+}
+
+.status.rejected,
+.status.cancelled,
+.statut-rejected,
+.statut-cancelled {
+  color: #991b2b !important;
+  background: #ffe0e4 !important;
+}
+
+/* TABLEAUX : en-têtes et lignes plus lisibles */
+.admin-table,
+.historique-table {
+  font-size: 15px !important;
+}
+
+.admin-table th,
+.historique-table th {
+  padding: 20px 19px !important;
+  color: #fff !important;
+  background: #102b4b !important;
+  border: 0 !important;
+  font-size: 13px !important;
+  letter-spacing: .08em !important;
+}
+
+.admin-table td,
+.historique-table td {
+  padding: 20px 19px !important;
+  color: #263e5c !important;
+  font-size: 15px !important;
+  border-bottom: 1px solid #e0e7f0 !important;
+}
+
+.admin-table tbody tr:nth-child(even),
+.historique-table tbody tr:nth-child(even) {
+  background: #f4f7fb !important;
+}
+
+.admin-table tbody tr:hover,
+.historique-table tbody tr:hover {
+  background: #e8f1ff !important;
+}
+
+/* CALENDRIER : cases plus grandes et mieux séparées */
+.calendrier-grille {
+  gap: 9px !important;
+  padding: 18px !important;
+  background: #dce5f0 !important;
+  border: 1px solid #c2cfdf !important;
+  border-radius: 20px !important;
+  box-shadow: 0 12px 32px rgba(11, 31, 58, .09) !important;
+}
+
+.calendrier-jour-semaine {
+  padding: 15px 5px !important;
+  color: #243d5c !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+}
+
+.calendrier-case {
+  min-height: 145px !important;
+  padding: 12px !important;
+  background: #fff !important;
+  border: 1px solid #cbd6e4 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 7px rgba(11, 31, 58, .035) !important;
+}
+
+.calendrier-case.hors-mois {
+  background: #e9eef5 !important;
+  opacity: .65 !important;
+}
+
+.calendrier-case.est-aujourdhui {
+  background: #e4efff !important;
+  border: 3px solid #1765c1 !important;
+  box-shadow: 0 0 0 3px rgba(23, 101, 193, .12) !important;
+}
+
+.calendrier-numero {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-width: 31px;
+  min-height: 31px;
+  color: #102b4b !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+}
+
+.calendrier-case.est-aujourdhui .calendrier-numero {
+  color: #fff !important;
+  background: #1765c1 !important;
+  border-radius: 50%;
+}
+
+.calendrier-evenement {
+  margin-top: 8px !important;
+  padding: 8px 9px !important;
+  border-radius: 7px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+}
+
+.evenement-approved {
+  border-left: 4px solid #15945b !important;
+}
+
+.evenement-pending {
+  border-left: 4px solid #d18a16 !important;
+}
+
+.calendrier-effectifs span {
+  padding: 5px 7px !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+}
+
+/* Navigation du calendrier */
+.calendrier-navigation {
+  padding: 9px !important;
+  border: 1px solid #cbd6e4 !important;
+  border-radius: 14px !important;
+}
+
+.calendrier-navigation button {
+  min-width: 45px !important;
+  min-height: 45px !important;
+  font-size: 20px !important;
+  font-weight: 900 !important;
+}
+
+.calendrier-navigation strong {
+  font-size: 16px !important;
+  font-weight: 900 !important;
+}
+
+.calendrier-legende {
+  gap: 25px !important;
+  color: #344d6a !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+/* Historique */
+.historique-total {
+  min-width: 145px !important;
+  min-height: 115px !important;
+  background: #dceaff !important;
+  border: 1px solid #a9c9f5 !important;
+}
+
+.historique-total strong {
+  font-size: 38px !important;
+  color: #104f9b !important;
+}
+
+.historique-total span {
+  font-size: 13px !important;
+  color: #315779 !important;
+}
+
+.historique-filtres {
+  padding: 22px 25px !important;
+  border: 1px solid #cbd6e4 !important;
+  border-radius: 15px !important;
+  box-shadow: 0 4px 15px rgba(11, 31, 58, .04) !important;
+}
+
+.historique-filtres label {
+  color: #263e5c !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+}
+
+/* Messages vides et erreurs */
+.empty-state,
+.historique-vide,
+.calendrier-vide,
+.admin-empty {
+  padding: 55px 25px !important;
+  color: #405873 !important;
+  background: #fff !important;
+  border: 2px dashed #bdcada !important;
+  border-radius: 16px !important;
+  font-size: 16px !important;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .calendrier-case {
+    min-height: 105px !important;
+  }
+
+  .calendrier-evenement {
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .dashboard-content,
+  .calendrier-page,
+  .historique-page {
+    width: calc(100% - 24px) !important;
+    padding-top: 30px !important;
+  }
+
+  .dashboard-content > h1,
+  .calendrier-entete h1,
+  .historique-header h1 {
+    font-size: 32px !important;
+  }
+
+  .dashboard-card {
+    padding: 17px !important;
+  }
+
+  .dashboard-card strong {
+    font-size: 30px !important;
+  }
+
+  .requests-section,
+  .admin-panel {
+    padding: 20px !important;
+  }
+
+  .calendrier-grille {
+    gap: 3px !important;
+    padding: 5px !important;
+  }
+
+  .calendrier-case {
+    min-height: 78px !important;
+    padding: 4px !important;
+    border-radius: 6px !important;
+  }
+
+  .calendrier-numero {
+    min-width: 23px !important;
+    min-height: 23px !important;
+    font-size: 12px !important;
+  }
+
+  .calendrier-evenement {
+    padding: 3px !important;
+    font-size: 9px !important;
+  }
+
+  .calendrier-effectifs span {
+    font-size: 8px !important;
+  }
+
+  .admin-table td,
+  .historique-table td {
+    padding: 13px !important;
+    font-size: 13px !important;
+  }
+}
+
+
+/* =====================================================
+   ADMINISTRATION — VERSION COMPACTE ET LISIBLE
+   ===================================================== */
+
+.admin-panel {
+  padding: 24px !important;
+  margin: 20px 0 !important;
+  border-radius: 15px !important;
+}
+
+.admin-panel-heading {
+  margin-bottom: 18px !important;
+}
+
+.admin-panel-heading h2 {
+  font-size: 20px !important;
+  margin-bottom: 5px !important;
+}
+
+.admin-panel p {
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+.admin-eyebrow {
+  font-size: 10px !important;
+  letter-spacing: .14em !important;
+}
+
+.admin-panel label {
+  font-size: 13px !important;
+}
+
+.admin-panel input,
+.admin-panel select,
+.admin-panel textarea,
+.admin-team-select {
+  min-height: 40px !important;
+  padding: 9px 12px !important;
+  font-size: 13px !important;
+  border-radius: 8px !important;
+}
+
+.admin-primary-button,
+.admin-team-action,
+.admin-team-delete {
+  min-height: 36px !important;
+  padding: 8px 13px !important;
+  font-size: 12px !important;
+  border-radius: 8px !important;
+}
+
+.admin-team-chip {
+  padding: 13px !important;
+  border-radius: 10px !important;
+}
+
+.admin-team-chip strong,
+.admin-team-chip h3 {
+  font-size: 14px !important;
+}
+
+.admin-team-chip p,
+.admin-team-chip span {
+  font-size: 12px !important;
+}
+
+.admin-table {
+  font-size: 13px !important;
+}
+
+.admin-table th {
+  padding: 13px 14px !important;
+  font-size: 11px !important;
+}
+
+.admin-table td {
+  padding: 12px 14px !important;
+  font-size: 13px !important;
+}
+
+.admin-table .status {
+  padding: 6px 10px !important;
+  font-size: 11px !important;
+}
+
+.admin-empty {
+  padding: 30px 18px !important;
+  font-size: 14px !important;
+}
+
+@media (max-width: 650px) {
+  .admin-panel {
+    padding: 16px !important;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 10px !important;
+  }
+}
+
+
+/* ADMINISTRATION — navigation compacte */
+.admin-workspace {
+  display: grid;
+  grid-template-columns: 205px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  margin-top: 24px;
+}
+
+.admin-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #e3e9f1;
+  border-radius: 14px;
+  position: sticky;
+  top: 20px;
+}
+
+.admin-sidebar-label {
+  padding: 5px 9px 10px;
+  color: #8995a7;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.admin-sidebar-nav button {
+  width: 100%;
+  padding: 10px 11px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #526176;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+
+.admin-sidebar-nav button:hover {
+  background: #f0f3f8;
+  color: #172b4d;
+}
+
+.admin-sidebar-nav button.active {
+  background: #172b4d;
+  color: #fff;
+}
+
+.admin-workspace-content {
+  min-width: 0;
+}
+
+.admin-workspace-content > .admin-panel {
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
+@media (max-width: 760px) {
+  .admin-workspace {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .admin-sidebar-nav {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-sidebar-label {
+    grid-column: 1 / -1;
+  }
+}

@@ -200,7 +200,17 @@ function Calendrier() {
                       className={`calendrier-evenement evenement-${conge.status}`}
                       title={`${conge.first_name} ${conge.last_name} — ${types[conge.leave_type] || conge.leave_type}`}
                     >
-                      <strong>{conge.first_name} {conge.last_name}</strong>
+                      <div className="collaborateur-identite">
+                        <span className="collaborateur-avatar">
+                          <span>{conge.first_name.charAt(0)}{conge.last_name.charAt(0)}</span>
+                          <img
+                            src={`/api/utilisateurs/${conge.user_id}/photo`}
+                            alt=""
+                            onError={(event) => { event.currentTarget.style.display = "none"; }}
+                          />
+                        </span>
+                        <strong>{conge.first_name} {conge.last_name}</strong>
+                      </div>
                       <small>{types[conge.leave_type] || conge.leave_type}</small>
                     </div>
                   ))}

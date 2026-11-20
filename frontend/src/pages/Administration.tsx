@@ -58,8 +58,17 @@ type Equipe = {
   manager_last_name: string | null;
 };
 
+type OngletAdmin = "overview" | "conges" | "automatique" | "collaborateurs" | "equipes" | "mouvements" | "organisation";
+
 function Administration() {
   const navigate = useNavigate();
+  const [ongletActif, setOngletActif] = useState<OngletAdmin>("overview");
+  const [nomOrganisation, setNomOrganisation] = useState("Mon organisation");
+  const [logoOrganisation, setLogoOrganisation] = useState<string | null>(null);
+  const [fichierLogo, setFichierLogo] = useState<File | null>(null);
+  const [enregistrementOrganisation, setEnregistrementOrganisation] = useState(false);
+  const [erreurOrganisation, setErreurOrganisation] = useState("");
+  const [messageOrganisation, setMessageOrganisation] = useState("");
 
   const [utilisateurs, setUtilisateurs] = useState<Utilisateur[]>([]);
   const [equipes, setEquipes] = useState<Equipe[]>([]);
@@ -588,6 +597,92 @@ function Administration() {
     }
   }
 
+  useEffect(() => {
+    async function chargerOrganisation() {
+      try {
+        const reponse = await fetch("/api/organisation", { credentials: "include" });
+        const donnees = await reponse.json();
+        if (!reponse.ok) throw new Error(donnees.message || "Chargement impossible.");
+        setNomOrganisation(donnees.name || "Mon organisation");
+        setLogoOrganisation(donnees.logoUrl || null);
+      } catch (error) {
+        setErreurOrganisation(
+          error instanceof Error ? error.message : "Chargement de l'organisation impossible."
+        );
+      }
+    }
+
+    chargerOrganisation();
+  }, []);
+
+  async function enregistrerOrganisation(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setErreurOrganisation("");
+    setMessageOrganisation("");
+
+    const nom = nomOrganisation.trim();
+    if (!nom || nom.length > 120) {
+      setErreurOrganisation("Le nom doit contenir entre 1 et 120 caractères.");
+      return;
+    }
+
+    if (fichierLogo && !["image/jpeg", "image/png", "image/webp"].includes(fichierLogo.type)) {
+      setErreurOrganisation("Choisissez un logo JPEG, PNG ou WebP.");
+      return;
+    }
+
+    if (fichierLogo && fichierLogo.size > 2 * 1024 * 1024) {
+      setErreurOrganisation("Le logo ne doit pas dépasser 2 Mo.");
+      return;
+    }
+
+    setEnregistrementOrganisation(true);
+
+    try {
+      let imageBase64: string | undefined;
+
+      if (fichierLogo) {
+        imageBase64 = await new Promise<string>((resolve, reject) => {
+          const lecteur = new FileReader();
+          lecteur.onload = () => resolve(String(lecteur.result || "").split(",")[1] || "");
+          lecteur.onerror = () => reject(new Error("Lecture du logo impossible."));
+          lecteur.readAsDataURL(fichierLogo);
+        });
+      }
+
+      const reponse = await fetch("/api/admin/organisation", {
+        method: "PUT",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: nom,
+          ...(imageBase64 ? { imageBase64, mimeType: fichierLogo?.type } : {}),
+        }),
+      });
+
+      const donnees = await reponse.json();
+      if (!reponse.ok) throw new Error(donnees.message || "Enregistrement impossible.");
+
+      setNomOrganisation(donnees.name || nom);
+      setFichierLogo(null);
+
+      const actualisation = await fetch("/api/organisation", { credentials: "include" });
+      if (actualisation.ok) {
+        const organisation = await actualisation.json();
+        setLogoOrganisation(organisation.logoUrl || null);
+      }
+
+      window.dispatchEvent(new Event("organisation-updated"));
+      setMessageOrganisation("Les informations de l'organisation ont été enregistrées.");
+    } catch (error) {
+      setErreurOrganisation(
+        error instanceof Error ? error.message : "Enregistrement impossible."
+      );
+    } finally {
+      setEnregistrementOrganisation(false);
+    }
+  }
+
   const utilisateursFiltres = utilisateurs.filter((utilisateur) =>
     `${utilisateur.first_name} ${utilisateur.last_name} ${utilisateur.email}`
       .toLowerCase()
@@ -605,7 +700,20 @@ function Administration() {
         <p className="dashboard-subtitle">
           Gérez les collaborateurs et leur affectation aux équipes.
         </p>
+        <div className="admin-workspace">
+          <nav className="admin-sidebar-nav" aria-label="Rubriques administration">
+            <span className="admin-sidebar-label">MENU</span>
+            <button type="button" className={ongletActif === "overview" ? "active" : ""} onClick={() => setOngletActif("overview")}>Vue d’ensemble</button>
+            <button type="button" className={ongletActif === "conges" ? "active" : ""} onClick={() => setOngletActif("conges")}>Congés</button>
+            <button type="button" className={ongletActif === "automatique" ? "active" : ""} onClick={() => setOngletActif("automatique")}>Suivi automatique</button>
+            <button type="button" className={ongletActif === "collaborateurs" ? "active" : ""} onClick={() => setOngletActif("collaborateurs")}>Collaborateurs</button>
+            <button type="button" className={ongletActif === "equipes" ? "active" : ""} onClick={() => setOngletActif("equipes")}>Équipes</button>
+            <button type="button" className={ongletActif === "mouvements" ? "active" : ""} onClick={() => setOngletActif("mouvements")}>Mouvements</button>
+            <button type="button" className={ongletActif === "organisation" ? "active" : ""} onClick={() => setOngletActif("organisation")}>Organisation</button>
+          </nav>
+          <div className="admin-workspace-content">
 
+        {ongletActif === "overview" && (
         <div className="dashboard-cards admin-stats">
           <article className="dashboard-card">
             <span>Collaborateurs</span>
@@ -620,10 +728,63 @@ function Administration() {
             <strong>{sansEquipe}</strong>
           </article>
         </div>
+        )}
 
         {erreur && <div className="admin-alert error">{erreur}</div>}
         {message && <div className="admin-alert success">{message}</div>}
 
+        {ongletActif === "organisation" && (
+          <section className="admin-panel">
+            <div className="admin-panel-heading">
+              <div>
+                <span className="admin-eyebrow">IDENTITÉ DE L'ENTREPRISE</span>
+                <h2>Organisation</h2>
+                <p>Personnalisez le nom et le logo affichés dans Congeo.</p>
+              </div>
+            </div>
+
+            {erreurOrganisation && <div className="admin-alert error">{erreurOrganisation}</div>}
+            {messageOrganisation && <div className="admin-alert success">{messageOrganisation}</div>}
+
+            <form className="organization-settings-form" onSubmit={enregistrerOrganisation}>
+              <label htmlFor="nom-organisation">Nom de l'organisation</label>
+              <input
+                id="nom-organisation"
+                className="admin-search"
+                type="text"
+                maxLength={120}
+                value={nomOrganisation}
+                onChange={(event) => setNomOrganisation(event.target.value)}
+                required
+              />
+
+              <label htmlFor="logo-organisation">Logo de l'organisation</label>
+              <div className="organization-logo-preview">
+                {fichierLogo ? (
+                  <img src={URL.createObjectURL(fichierLogo)} alt="Aperçu du nouveau logo" />
+                ) : logoOrganisation ? (
+                  <img src={logoOrganisation} alt="Logo actuel" />
+                ) : (
+                  <span>Aucun logo personnalisé</span>
+                )}
+              </div>
+
+              <input
+                id="logo-organisation"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                onChange={(event) => setFichierLogo(event.target.files?.[0] || null)}
+              />
+              <small>Formats acceptés : JPEG, PNG ou WebP. Taille maximale : 2 Mo.</small>
+
+              <button type="submit" className="admin-primary-button" disabled={enregistrementOrganisation}>
+                {enregistrementOrganisation ? "Enregistrement..." : "Enregistrer les modifications"}
+              </button>
+            </form>
+          </section>
+        )}
+
+        {ongletActif === "conges" && (
         <section className="admin-panel acquisitions-panel">
           <div className="admin-panel-heading">
             <div>
@@ -682,7 +843,9 @@ function Administration() {
             Le crédit automatique sera effectué à 03 h 05, selon le jour configuré.
           </p>
         </section>
+        )}
 
+        {ongletActif === "automatique" && (
         <section className="admin-panel acquisitions-panel">
           <div className="admin-panel-heading">
             <div>
@@ -948,7 +1111,9 @@ function Administration() {
             </div>
           )}
         </section>
+        )}
 
+        {ongletActif === "collaborateurs" && (
         <section className="admin-panel">
           <div className="admin-panel-heading">
             <div>
@@ -1022,7 +1187,9 @@ function Administration() {
             </button>
           </form>
         </section>
+        )}
 
+        {ongletActif === "equipes" && (
         <section className="admin-panel">
           <div className="admin-panel-heading">
             <div>
@@ -1106,8 +1273,10 @@ function Administration() {
             {equipes.length === 0 && <p>Aucune équipe créée.</p>}
           </div>
         </section>
+        )}
 
 
+        {ongletActif === "mouvements" && (
         <section className="admin-panel acquisitions-panel">
           <div className="admin-panel-heading">
             <div>
@@ -1212,7 +1381,9 @@ function Administration() {
             </div>
           )}
         </section>
+        )}
 
+        {ongletActif === "collaborateurs" && (
         <section className="admin-panel">
           <div className="admin-panel-heading admin-users-heading">
             <div>
@@ -1248,8 +1419,17 @@ function Administration() {
                       <td>
                         <div className="admin-user-name">
                           <span className="admin-avatar">
-                            {utilisateur.first_name.charAt(0)}
-                            {utilisateur.last_name.charAt(0)}
+                            <span className="admin-avatar-initials">
+                              {utilisateur.first_name.charAt(0)}
+                              {utilisateur.last_name.charAt(0)}
+                            </span>
+                            <img
+                              src={`/api/utilisateurs/${utilisateur.id}/photo`}
+                              alt=""
+                              onError={(event) => {
+                                event.currentTarget.style.display = "none";
+                              }}
+                            />
                           </span>
                           <strong>
                             {utilisateur.first_name} {utilisateur.last_name}
@@ -1326,6 +1506,9 @@ function Administration() {
             </div>
           )}
         </section>
+        )}
+          </div>
+        </div>
       </section>
     </main>
   );

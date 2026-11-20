@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 3000;
 app.use(helmet());
 
 // Analyse des requêtes JSON (limite de 10 Ko)
-app.use(express.json({ limit: "10kb" }));
+app.use(express.json({ limit: "3mb" }));
 
 // ==========================================
 // CONFIGURATION DES SESSIONS
@@ -1418,6 +1418,186 @@ async function verifierAdmin(req, res, next) {
     }
 }
 
+
+
+
+// ==========================================
+// PHOTOS DE PROFIL ET IDENTITÉ DE L'ORGANISATION
+// ==========================================
+
+function decoderImage(base64, mimeType) {
+    const types = {
+        "image/jpeg": (b) => b.length >= 3 && b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff,
+        "image/png": (b) => b.length >= 8 && b.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])),
+        "image/webp": (b) => b.length >= 12 && b.toString("ascii", 0, 4) === "RIFF" && b.toString("ascii", 8, 12) === "WEBP"
+    };
+
+    if (typeof base64 !== "string" || !types[mimeType]) {
+        throw new Error("Format d'image non accepté. Utilisez JPEG, PNG ou WebP.");
+    }
+
+    const image = Buffer.from(base64, "base64");
+
+    if (!image.length || image.length > 2 * 1024 * 1024 || !types[mimeType](image)) {
+        throw new Error("Image invalide ou supérieure à 2 Mo.");
+    }
+
+    return image;
+}
+
+// Photo de profil de l'utilisateur connecté
+app.get("/api/profil/photo", verifierConnexion, async (req, res) => {
+    try {
+        const resultat = await pool.query(
+            "SELECT profile_photo, profile_photo_type FROM users WHERE id = $1",
+            [req.session.user.id]
+        );
+
+        const utilisateur = resultat.rows[0];
+        if (!utilisateur?.profile_photo) {
+            return res.status(404).end();
+        }
+
+        res.set("Cache-Control", "private, no-store");
+        res.type(utilisateur.profile_photo_type).send(utilisateur.profile_photo);
+    } catch (erreur) {
+        console.error("Erreur chargement photo :", erreur);
+        res.status(500).json({ message: "Impossible de charger la photo." });
+    }
+});
+
+// Remplacement de sa propre photo
+app.put("/api/profil/photo", verifierConnexion, async (req, res) => {
+    try {
+        const image = decoderImage(req.body.imageBase64, req.body.mimeType);
+
+        await pool.query(
+            `UPDATE users
+             SET profile_photo = $1, profile_photo_type = $2
+             WHERE id = $3`,
+            [image, req.body.mimeType, req.session.user.id]
+        );
+
+        res.json({ message: "Photo de profil mise à jour." });
+    } catch (erreur) {
+        const clientError = erreur.message.includes("Image") || erreur.message.includes("Format");
+        res.status(clientError ? 400 : 500).json({
+            message: clientError ? erreur.message : "Impossible d'enregistrer la photo."
+        });
+    }
+});
+
+// Informations publiques de l'organisation pour les utilisateurs connectés
+// Consultation de la photo d'un collaborateur connecté
+app.get("/api/utilisateurs/:id/photo", verifierConnexion, async (req, res) => {
+    try {
+        const utilisateurId = Number(req.params.id);
+
+        if (!Number.isInteger(utilisateurId) || utilisateurId <= 0) {
+            return res.status(400).end();
+        }
+
+        const resultat = await pool.query(
+            "SELECT profile_photo, profile_photo_type FROM users WHERE id = $1",
+            [utilisateurId]
+        );
+
+        const utilisateur = resultat.rows[0];
+
+        if (!utilisateur?.profile_photo) {
+            return res.status(404).end();
+        }
+
+        res.set("Cache-Control", "private, no-store");
+        res.type(utilisateur.profile_photo_type).send(utilisateur.profile_photo);
+    } catch (erreur) {
+        console.error("Erreur chargement photo collaborateur :", erreur);
+        res.status(500).end();
+    }
+});
+
+app.get("/api/organisation", verifierConnexion, async (req, res) => {
+    try {
+        const resultat = await pool.query(
+            `SELECT organization_name, organization_logo, updated_at
+             FROM organization_settings WHERE id = 1`
+        );
+
+        const organisation = resultat.rows[0];
+        if (!organisation) {
+            return res.status(404).json({ message: "Organisation introuvable." });
+        }
+
+        res.json({
+            name: organisation.organization_name,
+            logoUrl: organisation.organization_logo
+                ? `/api/organisation/logo?v=${new Date(organisation.updated_at).getTime()}`
+                : null
+        });
+    } catch (erreur) {
+        console.error("Erreur chargement organisation :", erreur);
+        res.status(500).json({ message: "Impossible de charger l'organisation." });
+    }
+});
+
+// Logo de l'organisation
+app.get("/api/organisation/logo", verifierConnexion, async (req, res) => {
+    try {
+        const resultat = await pool.query(
+            `SELECT organization_logo, organization_logo_type
+             FROM organization_settings WHERE id = 1`
+        );
+
+        const organisation = resultat.rows[0];
+        if (!organisation?.organization_logo) {
+            return res.status(404).end();
+        }
+
+        res.set("Cache-Control", "private, no-store");
+        res.type(organisation.organization_logo_type).send(organisation.organization_logo);
+    } catch (erreur) {
+        console.error("Erreur chargement logo :", erreur);
+        res.status(500).end();
+    }
+});
+
+// Modification du nom et éventuellement du logo : administrateur uniquement
+app.put("/api/admin/organisation", verifierConnexion, verifierAdmin, async (req, res) => {
+    try {
+        const nom = typeof req.body.name === "string" ? req.body.name.trim() : "";
+
+        if (!nom || nom.length > 120) {
+            return res.status(400).json({
+                message: "Le nom doit contenir entre 1 et 120 caractères."
+            });
+        }
+
+        let image = null;
+        let mimeType = null;
+
+        if (req.body.imageBase64) {
+            image = decoderImage(req.body.imageBase64, req.body.mimeType);
+            mimeType = req.body.mimeType;
+        }
+
+        await pool.query(
+            `UPDATE organization_settings
+             SET organization_name = $1,
+                 organization_logo = COALESCE($2, organization_logo),
+                 organization_logo_type = COALESCE($3, organization_logo_type),
+                 updated_at = CURRENT_TIMESTAMP
+             WHERE id = 1`,
+            [nom, image, mimeType]
+        );
+
+        res.json({ message: "Organisation mise à jour." });
+    } catch (erreur) {
+        const clientError = erreur.message.includes("Image") || erreur.message.includes("Format");
+        res.status(clientError ? 400 : 500).json({
+            message: clientError ? erreur.message : "Impossible de modifier l'organisation."
+        });
+    }
+});
 
 
 // Paramètres d'acquisition des congés — réservé à l'administrateur

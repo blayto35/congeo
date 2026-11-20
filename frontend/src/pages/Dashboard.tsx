@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./DashboardPremium.css";
 
 interface Utilisateur {
   id: number;
@@ -191,6 +192,10 @@ function Dashboard() {
     <main className="dashboard">
 
       <section className="dashboard-content">
+        <div className="dashboard-brand">
+          <img src="/favicon.svg" alt="" />
+          <span>Congeo</span>
+        </div>
         <p className="eyebrow">ESPACE PERSONNEL</p>
 
         <h1>Bonjour {utilisateur.first_name} 👋</h1>

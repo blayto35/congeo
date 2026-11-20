@@ -1287,3 +1287,28 @@ form button:disabled {
   display: block;
   color: #80652e;
 }
+
+
+/* Identité visuelle Congeo */
+.brand img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+}
+
+.dashboard-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  color: #0b1f4d;
+  font-family: 'Manrope', sans-serif;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.dashboard-brand img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}

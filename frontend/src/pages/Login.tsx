@@ -43,7 +43,7 @@ function Login() {
     <main className="auth-page">
       <section className="auth-card">
         <div className="brand">
-          <div className="brand-icon">C</div>
+          <img src="/favicon.svg" alt="Logo Congeo" />
           <span>Conge<span className="brand-accent">o</span></span>
         </div>
 

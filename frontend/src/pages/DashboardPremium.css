@@ -1,0 +1,405 @@
+/* CONGEO — Tableau de bord Corporate Premium */
+
+.dashboard {
+  min-height: calc(100vh - 72px);
+  background: #f3f6fa;
+  color: #24344d;
+}
+
+.dashboard-content {
+  width: min(1440px, calc(100% - 80px));
+  max-width: none;
+  margin: 0 auto;
+  padding: 48px 0 80px;
+}
+
+/* En-tête de bienvenue */
+
+.dashboard-brand {
+  display: none;
+}
+
+.dashboard-content > .eyebrow {
+  margin: 0 0 12px;
+  color: #2878d0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.dashboard-content > h1 {
+  margin: 0;
+  color: #10284c;
+  font-family: "Manrope", sans-serif;
+  font-size: clamp(30px, 3vw, 40px);
+  font-weight: 800;
+  letter-spacing: -1.2px;
+}
+
+.dashboard-subtitle {
+  margin: 10px 0 0;
+  color: #718096;
+  font-size: 15px;
+}
+
+/* Statistiques */
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin: 36px 0 30px;
+}
+
+.dashboard-card {
+  position: relative;
+  min-height: 155px;
+  padding: 23px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid #e3eaf2;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(16, 40, 76, .045);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(16, 40, 76, .09);
+}
+
+.dashboard-card span {
+  color: #718096;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dashboard-card strong {
+  color: #10284c;
+  font-family: "Manrope", sans-serif;
+  font-size: clamp(23px, 2vw, 29px);
+  font-weight: 800;
+  letter-spacing: -.7px;
+}
+
+.dashboard-card small {
+  color: #8a98aa;
+  font-size: 12px;
+}
+
+/* Solde disponible mis en avant */
+
+.dashboard-card:nth-child(4) {
+  background: linear-gradient(145deg, #10284c, #1d4e89);
+  border-color: #1d4e89;
+}
+
+.dashboard-card:nth-child(4) span,
+.dashboard-card:nth-child(4) small {
+  color: #d4e2f3;
+}
+
+.dashboard-card:nth-child(4) strong {
+  color: #fff;
+}
+
+/* Deux indicateurs secondaires */
+
+.dashboard-card:nth-child(5),
+.dashboard-card:nth-child(6) {
+  min-height: 115px;
+  background: #edf2f8;
+  border-color: #edf2f8;
+  box-shadow: none;
+}
+
+.dashboard-card:nth-child(5) strong,
+.dashboard-card:nth-child(6) strong {
+  font-size: 25px;
+}
+
+/* Panneaux */
+
+.requests-section {
+  margin-top: 25px;
+  padding: 30px;
+  background: #fff;
+  border: 1px solid #e3eaf2;
+  border-radius: 15px;
+  box-shadow: 0 4px 18px rgba(16, 40, 76, .045);
+}
+
+.section-heading {
+  margin-bottom: 25px;
+}
+
+.section-heading h2 {
+  margin: 0 0 8px;
+  color: #10284c;
+  font-family: "Manrope", sans-serif;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.section-heading p {
+  margin: 0;
+  color: #718096;
+  font-size: 14px;
+}
+
+/* Formulaire */
+
+.leave-form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.leave-form .form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.leave-form .form-row > div {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.leave-form label {
+  color: #34445c;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.leave-form input,
+.leave-form textarea {
+  width: 100%;
+  padding: 13px 14px;
+  color: #24344d;
+  background: #fbfcfe;
+  border: 1px solid #dce5ef;
+  border-radius: 9px;
+  font: inherit;
+  font-size: 14px;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.leave-form input:focus,
+.leave-form textarea:focus {
+  border-color: #2878d0;
+  box-shadow: 0 0 0 3px rgba(40, 120, 208, .11);
+  outline: none;
+}
+
+.leave-form textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.leave-form > button {
+  align-self: flex-start;
+  margin-top: 5px;
+  padding: 13px 22px;
+  color: #fff;
+  background: #2878d0;
+  border: 0;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+
+.leave-form > button:hover {
+  background: #10284c;
+  transform: translateY(-1px);
+}
+
+.leave-form > button:disabled {
+  opacity: .6;
+  cursor: wait;
+  transform: none;
+}
+
+.success-message {
+  color: #21845b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.error-message {
+  color: #c74752;
+  font-size: 13px;
+}
+
+/* Liste des demandes */
+
+.history-section {
+  margin-top: 25px;
+}
+
+.requests-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.request-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid #e9eef4;
+}
+
+.request-item:last-child {
+  border-bottom: 0;
+}
+
+.request-item > div:first-child > strong {
+  color: #24344d;
+  font-size: 14px;
+}
+
+.request-item p {
+  margin: 7px 0 0;
+  color: #8794a6;
+  font-size: 13px;
+}
+
+.request-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 11px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.status.pending {
+  color: #946313;
+  background: #fff4d9;
+}
+
+.status.approved {
+  color: #19734f;
+  background: #e3f5ed;
+}
+
+.status.rejected,
+.status.cancelled {
+  color: #b53c49;
+  background: #fcebed;
+}
+
+.status.cancellation_requested {
+  color: #a35c18;
+  background: #fff0df;
+}
+
+.cancel-request-button {
+  padding: 8px 12px;
+  color: #b74752;
+  background: #fff;
+  border: 1px solid #f0cbd0;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel-request-button:hover {
+  background: #fff3f4;
+}
+
+.cancel-request-button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+/* État vide */
+
+.empty-state {
+  padding: 45px 15px;
+  text-align: center;
+  color: #718096;
+  background: #f8fafc;
+  border: 1px dashed #dce5ef;
+  border-radius: 12px;
+}
+
+.empty-state span {
+  font-size: 30px;
+}
+
+.empty-state h3 {
+  margin: 12px 0 7px;
+  color: #10284c;
+  font-size: 16px;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* Responsive */
+
+@media (max-width: 1050px) {
+  .dashboard-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .dashboard-content {
+    width: calc(100% - 32px);
+    padding: 30px 0 50px;
+  }
+
+  .dashboard-cards {
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
+    margin-top: 25px;
+  }
+
+  .dashboard-card {
+    min-height: 135px;
+    padding: 16px;
+  }
+
+  .dashboard-card strong {
+    font-size: 21px;
+  }
+
+  .requests-section {
+    padding: 20px 16px;
+  }
+
+  .leave-form .form-row {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+
+  .request-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .request-actions {
+    justify-content: flex-start;
+  }
+}
