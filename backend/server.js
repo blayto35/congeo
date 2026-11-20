@@ -15,7 +15,7 @@ const calculerJoursOuvrables = require("./utils/calculerJoursOuvrables");
 const repartirJoursParAnnee = require("./utils/repartirJoursParAnnee");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Sécurisation des en-têtes HTTP
 app.use(helmet());
@@ -31,6 +31,10 @@ if (!process.env.SESSION_SECRET) {
     throw new Error("SESSION_SECRET manquant dans le fichier .env");
 }
 
+if (process.env.NODE_ENV === "production") {
+    app.set("trust proxy", 1);
+}
+
 app.use(session({
     store: new PostgreSQLStore({
         pool: pool,
@@ -41,7 +45,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: false, // true en production avec HTTPS
+        secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
         maxAge: 1000 * 60 * 60 * 8
     }
@@ -134,14 +138,6 @@ async function verifierManager(req, res, next) {
         res.status(500).json({ message: "Vérification des droits impossible." });
     }
 }
-
-// PAGE D'ACCUEIL
-// ==========================================
-
-app.get("/", (req, res) => {
-    res.send("Notre application de gestion des congés est en construction !");
-});
-
 
 // ==========================================
 // TEST DE L'API
@@ -2155,9 +2151,27 @@ cron.schedule("5 3 * * *", () => {
 });
 
 // ==========================================
+// FRONTEND REACT
+// ==========================================
+
+const frontendPath = path.resolve(__dirname, "../frontend/dist");
+
+app.use(express.static(frontendPath));
+
+app.use((req, res, next) => {
+    if (req.path.startsWith("/api/")) {
+        return next();
+    }
+
+    res.sendFile(path.join(frontendPath, "index.html"), (erreur) => {
+        if (erreur) next(erreur);
+    });
+});
+
+// ==========================================
 // DÉMARRAGE DU SERVEUR
 // ==========================================
 
 app.listen(PORT, () => {
-    console.log(`Serveur démarré sur http://localhost:${PORT}`);
+    console.log(`Serveur démarré sur le port ${PORT}`);
 });
